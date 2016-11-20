@@ -1,2 +1,29 @@
-h1 Hello!
-pre {{ users|json }}
+//- h1 Hello!
+//- pre {{ users|json }}
+//- pre {{ availableRoles }}
+ul
+	li(ng-repeat="user in users")
+		
+		div.user
+			div.user__initials
+				div {{getUserInitials(user.firstname, user.lastname)}}
+
+			div.user__userinfo
+				p {{user.username}}
+				p Roles: {{parseUserRoles(user.roles)}}
+
+			div.user__edit
+				button(ng-click="expand = !expand") edit
+
+
+		div.expand(ng-show="expand")
+			div.expand__username
+				span Username
+				input(type="text" ng-model="user.username")
+			div.expand__roles
+				span Roles
+				div
+					label(ng-repeat="role in availableRoles")
+						input(type="checkbox" ng-checked="checkRoles(role, user.roles)" ng-click="user.roles=updateRoles(role, user.roles); expand = !expand")
+						|  {{role}}
+
